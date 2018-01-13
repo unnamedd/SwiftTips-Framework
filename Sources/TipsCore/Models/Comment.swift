@@ -1,7 +1,7 @@
 import Foundation
 
-struct Comment {
-    var text: String?
+public struct Comment {
+    public var text: String?
     
     init?(_ value: String?) {
         guard value != nil, value != "" else {
@@ -13,7 +13,7 @@ struct Comment {
 }
 
 extension Comment: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         return text ?? "Comment(nil)"
     }
 }

@@ -1,27 +1,27 @@
 import Foundation
 
-final class Tricks {
+public final class Tricks {
     // MARK: - Private properties
     private let regex = "## \\[\\#(?<issue>[0-9]+) (?<title>[^\\]]+)]\\((?<tweet>[^\\)]*)\\)\\n(?<description>[\\s\\S]*?)```swift\\n(?<code>[\\s\\S]*?)\\n```\\n*(?<comments>[^#]+)"
     private var origin: Origin
     
     // MARK: - Public properties
-    typealias CompletionTips = (_ tips: [Tip]) -> Void
+    public typealias CompletionTips = (_ tips: [Tip]) -> Void
     
-    static let main = Tricks(from: .remote)
-    var content: [Tip]?
+    public static let main = Tricks(from: .remote)
+    var tips: [Tip]?
     
-    enum Origin {
+    public enum Origin {
         case local
         case remote
     }
     
     // MARK: - Initialization
-    init(from: Origin) {
+    public init(from: Origin) {
         origin = from
     }
     
-    convenience init() {
+    public convenience init() {
         self.init(from: .remote)
     }
     
@@ -44,7 +44,7 @@ final class Tricks {
         let content = listTips as NSString
         
         let tips = results.flatMap { Tip(content, match: $0) }
-        self.content = tips
+        self.tips = tips
         
         return tips
     }

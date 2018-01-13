@@ -6,13 +6,13 @@ private extension String {
     }
 }
 
-struct Tip {
-    var issue: Int?
-    var title: String?
-    var tweet: String?
-    var description: String?
-    var code: String?
-    var comments: [Comment]?
+public struct Tip {
+    public var issue: Int?
+    public var title: String?
+    public var tweet: String?
+    public var description: String?
+    public var code: String?
+    public var comments: [Comment]?
     
     init?(_ content: NSString, match: NSTextCheckingResult) {
         var issueRange: NSRange?
