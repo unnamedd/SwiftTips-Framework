@@ -55,8 +55,6 @@ enum ServiceError: Error {
 }
 
 class Service {
-    typealias JSONDictionary = [String: Any]
-    
     @discardableResult
     public static func requestText(_ url: String, completion: @escaping (ServiceResult<String>) -> Void) -> URLSessionDataTask? {
         let task = self.request(url: url) { result in
