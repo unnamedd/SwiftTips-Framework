@@ -6,20 +6,12 @@ import PackageDescription
 let package = Package(
     name: "Tips",
     products: [
-        .executable(
-            name: "tips",
-            targets: ["Tips"]
-        ),
         .library(
             name: "TipsCore",
             targets: ["TipsCore"]
         ),
     ],
     targets: [
-        .target(
-            name: "Tips",
-            dependencies: ["TipsCore"]
-        ),
         .target(name: "TipsCore"),
         .testTarget(
             name: "TipsTests",

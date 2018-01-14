@@ -1,5 +1,4 @@
-//@testable
-import TipsCore
+@testable import TipsCore
 import XCTest
 
 class TipsTests: XCTestCase {
