@@ -1,18 +1,20 @@
 import Foundation
-
-public struct Comment {
-    public var text: String?
-    
-    init?(_ value: String?) {
-        guard value != nil, value != "" else {
-            return nil
-        }
+public extension Tricks {
+    public struct Comment {
+        public var text: String?
         
-        text = value
+        init?(_ value: String?) {
+            guard value != nil, value != "" else {
+                return nil
+            }
+            
+            text = value
+        }
     }
+    
 }
 
-extension Comment: CustomStringConvertible {
+extension Tricks.Comment: CustomStringConvertible {
     public var description: String {
         return text ?? "Comment(nil)"
     }
