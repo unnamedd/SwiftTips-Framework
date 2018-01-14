@@ -11,7 +11,6 @@ public extension Tricks {
             text = value
         }
     }
-    
 }
 
 extension Tricks.Comment: CustomStringConvertible {
