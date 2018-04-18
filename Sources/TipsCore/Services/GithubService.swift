@@ -3,8 +3,7 @@ import Foundation
 struct GithubService {
     typealias CompletionDetail = (ServiceResult<String>) -> Void
     
-    static func markdown(completion: @escaping CompletionDetail) {
-        let url = "https://raw.githubusercontent.com/JohnSundell/SwiftTips/master/README.md"
-        Service.requestText(url, completion: completion)
+    static func markdown(from source: Source, completion: @escaping CompletionDetail) {
+        Service.requestText(source.markdownURL, completion: completion)
     }
 }

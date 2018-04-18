@@ -1,29 +1,16 @@
 import Foundation
 
 public final class Tricks {
-    // MARK: - Private properties
-    private let regex = "## \\[\\#(?<issue>[0-9]+) (?<title>[^\\]]+)]\\((?<tweet>[^\\)]*)\\)\\n(?<description>[\\s\\S]*?)```swift\\n(?<code>[\\s\\S]*?)\\n```\\n*(?<comments>[^#]+)"
-    private var origin: Origin
     
     // MARK: - Public properties
-    public typealias CompletionTips = (_ tips: [Tip]) -> Void
+    public typealias TipsClosure = (_ tips: [Tip]) -> Void
+    private var source: Source
+    public var tips: [Tip]?
     
-    public static let main = Tricks(from: .remote)
-    var tips: [Tip]?
-    
-    public enum Origin {
-        case local
-        case remote
+    init(from source: Source) {
+        self.source = source
     }
     
-    // MARK: - Initialization
-    public init(from: Origin) {
-        origin = from
-    }
-    
-    public convenience init() {
-        self.init(from: .remote)
-    }
     
     // MARK: - Private methods
     private func matches(for regex: String, in text: String) -> [NSTextCheckingResult] {
@@ -39,9 +26,9 @@ public final class Tricks {
         }
     }
     
-    private func parse(_ listTips: String) -> [Tip] {
-        let results: [NSTextCheckingResult] = matches(for: regex, in: listTips)
-        let content = listTips as NSString
+    private func parse(_ text: String) -> [Tip] {
+        let results: [NSTextCheckingResult] = matches(for: source.regex, in: text)
+        let content = text as NSString
         
         let tips = results.flatMap { Tip(content, match: $0) }
         self.tips = tips
@@ -50,30 +37,16 @@ public final class Tricks {
     }
     
     // MARK: - Public methods
-    public func read(_ completion: CompletionTips?) {
-        switch origin {
-        case .local:
-            guard let dirPath = URL(string: "file:///Users/unnamedd/workspace/opensource/tips/Sources/tips/tips.md") else {
+    public func read(_ completion: TipsClosure?) {
+        GithubService.markdown(from: source) { [unowned self] result in
+            guard let tips = result.value else {
+                if let error = result.error {
+                    print("Error: \(error)")
+                }
                 return
             }
             
-            guard let content = try? String(contentsOf: dirPath, encoding: .utf8) else {
-                fatalError("File could not be parsed")
-            }
-            
-            completion?(parse(content))
-            
-        case .remote:
-            GithubService.markdown { [unowned self] result in
-                guard let tips = result.value else {
-                    if let error = result.error {
-                        print("Error: \(error)")
-                    }
-                    return
-                }
-
-                completion?(self.parse(tips))
-            }
+            completion?(self.parse(tips))
         }
     }
 }
