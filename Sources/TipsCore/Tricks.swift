@@ -1,13 +1,14 @@
 import Foundation
 
 public final class Tricks {
+    // MARK: - Private properties
+    private var source: Source
     
     // MARK: - Public properties
     public typealias TipsClosure = (_ tips: [Tip]) -> Void
-    private var source: Source
     public var tips: [Tip]?
     
-    init(from source: Source) {
+    public init(from source: Source) {
         self.source = source
     }
     
